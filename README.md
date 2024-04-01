@@ -1,4 +1,4 @@
-# Sentiments Enterprise IAC
+# Krypton Enterprise IAC
 
 ## Create a App registration in Azure AD
 
