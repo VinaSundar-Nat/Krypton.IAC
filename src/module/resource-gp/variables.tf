@@ -1,0 +1,6 @@
+variable "location" {}
+
+variable "tags" {}
+
+
+
