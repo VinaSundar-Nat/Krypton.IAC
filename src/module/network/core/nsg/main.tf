@@ -5,7 +5,7 @@ locals {
   name_sec_rule_out_p443 = "${join("_",["kr",tostring(terraform.workspace),"p443","sec_rule_outbound"])}"
 }
 
-resource "azurerm_network_security_group" "kr-nsg" {
+resource azurerm_network_security_group kr-nsg {
   name                = local.name_nsg
   location            = var.location        
   resource_group_name = var.group

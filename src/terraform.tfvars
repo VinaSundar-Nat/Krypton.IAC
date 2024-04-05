@@ -42,3 +42,22 @@ az-cosmos-consistency = {
   uat     = "ConsistentPrefix",
   dr      = "Session"
 }
+
+az-storage-tier = {
+  default = "Standard",
+  dev     = "Standard",
+  prod    = "Standard",
+  stage   = "Standard",
+  uat     = "Standard",
+  dr      = "Standard"
+}
+
+az-storage-replication = {
+  default = "LRS",
+  dev     = "LRS",
+  prod    = "GRS",
+  stage   = "GRS",
+  uat     = "LRS",
+  dr      = "GRS"
+}
+
