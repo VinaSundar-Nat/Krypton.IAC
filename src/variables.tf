@@ -113,3 +113,23 @@ variable "az-cosmos-consistency" {
 }
 
 /*End*/
+
+/*AZ Storage */
+
+variable "az-storage-tier" {
+  type        = map(string)
+  description = "az storage tier (Standard,Premium)"
+}
+
+variable "az-storage-kind" {
+  type        = string
+  description = "az storage kind (BlobStorage,BlockBlobStorage,FileStorage,StorageV2)"
+  default     = "StorageV2"
+}
+
+variable "az-storage-replication" {
+  type        = map(string)
+  description = "az storage repliction (Standard,Premium)"
+}
+
+/*End*/

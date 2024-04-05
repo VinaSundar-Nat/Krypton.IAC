@@ -412,6 +412,7 @@ ASALocalRun/
 # tf
 *.hcl
 .terraform
+*.tfplan
 terraform.tfstate.d
 terraform.tfstate.d
 
