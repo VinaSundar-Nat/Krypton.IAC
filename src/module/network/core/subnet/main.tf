@@ -3,7 +3,7 @@ locals {
 }
 
 
-resource "azurerm_subnet" "kr-subnet" {
+resource azurerm_subnet kr-subnet {
   name                 = local.name_subnet
   resource_group_name  = var.group
   virtual_network_name = var.vnet

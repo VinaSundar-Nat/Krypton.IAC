@@ -25,7 +25,7 @@ resource azurerm_template_deployment kr-storage-container {
   deployment_mode     = "Incremental"
 
   depends_on = [
-    "azurerm_storage_account.kr-storage-account",
+    azurerm_storage_account.kr-storage-account
   ]
 
   parameters = {
