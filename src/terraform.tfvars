@@ -1,6 +1,6 @@
 az-location = {
   default = "West US 2",
-  dev     = "West US 2",
+  dev     = "East US",
   prod    = "Australia East",
   stage   = "Australia East",
   uat     = "West US 2",

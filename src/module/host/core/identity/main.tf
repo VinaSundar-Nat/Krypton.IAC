@@ -1,5 +1,5 @@
 locals {
-  name_usr = "${join("_",["kr",tostring(terraform.workspace),"usr","mangidn"])}"
+  name_usr = "${join("_",["kr","core",tostring(terraform.workspace),"usr","mangidn"])}"
 }
 
 resource azurerm_user_assigned_identity kr-usr-mang-idn {
