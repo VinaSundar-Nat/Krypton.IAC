@@ -7,7 +7,7 @@ resource azurerm_subnet kr-subnet {
   name                 = local.name_subnet
   resource_group_name  = var.group
   virtual_network_name = var.vnet
-  address_prefixes     = ["10.0.2.0/24"]
+  address_prefixes     = ["10.0.0.0/16"]
   service_endpoints    = var.endpoints  
 }
 
