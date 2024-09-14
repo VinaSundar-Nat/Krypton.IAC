@@ -7,10 +7,11 @@ output "kr-storage-account_id" {
 }
 
 output "kr_storage_container_name" {
-  value = azurerm_template_deployment.kr-storage-container.outputs["containername"]
+  value = jsondecode(azurerm_resource_group_template_deployment.kr-storage-container.output_content).containername.value
 }
 
 output "kr_storage_container_id" {
-  value = azurerm_template_deployment.kr-storage-container.outputs["containerid"]
+  value = jsondecode(azurerm_resource_group_template_deployment.kr-storage-container.output_content).containerid.value
+  //value = azurerm_resource_group_template_deployment.kr-storage-container.outputs["containerid"]
 }
 

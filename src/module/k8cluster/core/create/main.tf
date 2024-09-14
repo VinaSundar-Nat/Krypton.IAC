@@ -23,13 +23,13 @@ resource azurerm_kubernetes_cluster kr-k8-cluster {
       "type"          = "system"
       "env"           = tostring(terraform.workspace)
       "os"            = "linux"
-      "vertical"      = "core-api"
+      "vertical"      = "core-ai"
     }
     tags = {
       "type"          = "system"
       "env"           = tostring(terraform.workspace)
       "os"            = "linux"
-      "vertical"      = "core-api"
+      "vertical"      = "core-ai"
     } 
   }
 
@@ -40,14 +40,15 @@ resource azurerm_kubernetes_cluster kr-k8-cluster {
   azure_active_directory_role_based_access_control {
     tenant_id              = var.tenant
     managed                = true
-    admin_group_object_ids = [var.adm]  
+    admin_group_object_ids = [var.adm] 
+    azure_rbac_enabled     = true 
   }
 
   network_profile {
     load_balancer_sku = var.lb-sku
     network_plugin = var.plugin
     service_cidr   = var.service-cidr
-    //pod_cidrs = [var.service-cidr]
+    pod_cidrs = [var.pod-cidr]
     dns_service_ip = var.dns-svc-ip
   }
 

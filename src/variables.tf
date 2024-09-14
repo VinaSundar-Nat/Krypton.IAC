@@ -132,4 +132,9 @@ variable "az-storage-replication" {
   description = "az storage repliction (Standard,Premium)"
 }
 
+variable "az-storage-allowrule" {
+  type        = map(list(string))
+  description = "Public IPs allowed to view / access storage"
+}
+
 /*End*/
