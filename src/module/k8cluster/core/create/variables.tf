@@ -15,7 +15,7 @@ variable "dnsprefix" {
 variable "vm-size" {
   type        = string
   description = "nodepool vm definition - https://cloudprice.net/?timeoption=month"
-  default     = "Standard_D2_v2"
+  default     = "standard_b2pls_v2"
 }
 
 variable "node-count" {
@@ -46,5 +46,11 @@ variable "dns-svc-ip" {
   type        = string
   description = "service cidr - must be different from subnet address prefix"
   default     = "10.1.0.11"
+}
+
+variable "pod-cidr" {
+  type        = string
+  description = "service cidr - must be different from subnet address prefix"
+  default     = "10.244.0.0/16"
 }
 

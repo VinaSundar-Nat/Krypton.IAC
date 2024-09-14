@@ -61,3 +61,12 @@ az-storage-replication = {
   dr      = "GRS"
 }
 
+az-storage-allowrule = {
+  "default" = ["58.84.127.185"],
+  "dev"     = ["58.84.127.185"],
+  "prod"    = [],
+  "stage"   = [],
+  "uat"     = [],
+  "dr"      = ["58.84.127.185"]
+}
+

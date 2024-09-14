@@ -31,6 +31,13 @@ provider "azurerm" {
   subscription_id             = var.AZ_SUBSCRIPTION
 }
 
+provider "azuread" {
+  tenant_id                   = var.AZ_TENNENT_ID
+  client_id                   = var.AZ_CLIENT_ID
+  client_certificate_path     = var.AZ_CERT_PATH
+  client_certificate_password = var.AZ_CERT_PASSWORD
+}
+
 module "deploy-kr-rg" {
   source   = "./module/resource-gp"
   location = var.az-location[terraform.workspace]
@@ -87,6 +94,7 @@ module "deploy-kr-storage-core" {
   tier        = var.az-storage-tier[terraform.workspace]
   kind        = var.az-storage-kind
   replication = var.az-storage-replication[terraform.workspace]
+  allowip     = var.az-storage-allowrule[terraform.workspace]
   tags = {
     env      = terraform.workspace,
     owner    = var.owner
