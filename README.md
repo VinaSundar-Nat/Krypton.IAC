@@ -13,6 +13,9 @@
 ### STEP 4:  Link subscription to APP-Registration with desired RBAC permissions.
 ![RBAC permisions to deploy resources](./.images/RoleAssignment.png)
 
+### STEP 4: Setup API permissions for App - required for K8 Cluster admin group (RBAC)
+![K8 Cluster admin group (RBAC)](./.images/ApiPermission.png)
+
 ### Populate Variables specfic to project after registring application in Azure AD and linking SP to subscription
 ```
 AZ_CLIENT_ID='0000000-0000-0000-0000-000000000000'
