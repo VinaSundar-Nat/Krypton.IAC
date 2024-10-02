@@ -85,29 +85,30 @@ module "deploy-kr-subnet-core" {
   endpoints = var.az-src-endpoints
 }
 
+#Identity - user managed identity
+module "deploy-kr-host-usr_mang" {
+  source   = "./module/host/core/identity"
+  group    = module.deploy-kr-rg.kr_rg_name
+  location = var.az-location[terraform.workspace]
+}
+
 #Storage
 module "deploy-kr-storage-core" {
-  source      = "./module/storage/core/cluster/blob"
-  group       = module.deploy-kr-rg.kr_rg_name
-  location    = var.az-location[terraform.workspace]
-  subnet      = module.deploy-kr-subnet-core.kr_subnet_id
-  tier        = var.az-storage-tier[terraform.workspace]
-  kind        = var.az-storage-kind
-  replication = var.az-storage-replication[terraform.workspace]
-  allowip     = var.az-storage-allowrule[terraform.workspace]
+  source        = "./module/storage/core/cluster/blob"
+  group         = module.deploy-kr-rg.kr_rg_name
+  location      = var.az-location[terraform.workspace]
+  subnet        = module.deploy-kr-subnet-core.kr_subnet_id
+  tier          = var.az-storage-tier[terraform.workspace]
+  kind          = var.az-storage-kind
+  replication   = var.az-storage-replication[terraform.workspace]
+  allowip       = var.az-storage-allowrule[terraform.workspace]
+  userPrincipal = module.deploy-kr-host-usr_mang.kr_usr_mang_idn_principal_id
   tags = {
     env      = terraform.workspace,
     owner    = var.owner
     division = var.division
     source   = var.source_system
   }
-}
-
-#Identity - user managed identity
-module "deploy-kr-host-usr_mang" {
-  source   = "./module/host/core/identity"
-  group    = module.deploy-kr-rg.kr_rg_name
-  location = var.az-location[terraform.workspace]
 }
 
 module "deploy-kr-host-k8-adm" {

@@ -13,13 +13,16 @@ resource azurerm_storage_account kr-storage-account {
   account_replication_type = var.replication
   tags                     = var.tags
 
-  # network_rules {
-  #   default_action            = "Deny"
-  #   virtual_network_subnet_ids = [var.subnet]
-  # }
 }
 
-resource "azurerm_storage_account_network_rules" kr-storage-network-rules {
+resource "azurerm_role_assignment" "kr-storage_identity_role" {
+  principal_id         = var.userPrincipal
+  # https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#compute
+  role_definition_name = "Storage Blob Data Contributor"
+  scope                = azurerm_storage_account.kr-storage-account.id
+}
+
+resource "azurerm_storage_account_network_rules" "kr-storage-network-rules" {
   storage_account_id    = azurerm_storage_account.kr-storage-account.id
   default_action        = "Deny"
   bypass                = var.bypasssettings

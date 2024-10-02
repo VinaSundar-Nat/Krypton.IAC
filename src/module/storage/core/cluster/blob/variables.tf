@@ -6,6 +6,7 @@ variable subnet {}
 variable replication {}
 variable tags {}
 variable allowip {}
+variable userPrincipal {}
 
 variable "bypasssettings" {
   type = list

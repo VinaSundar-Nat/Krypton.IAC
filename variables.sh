@@ -7,5 +7,6 @@ KR_DEPLOY_TO="dev"
 # AZ_TENNENT_ID=''
 # AZ_SUBSCRIPTION=''
 
+
 #Project variables
 create=true
