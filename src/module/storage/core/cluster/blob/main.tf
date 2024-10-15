@@ -22,6 +22,14 @@ resource "azurerm_role_assignment" "kr-storage_identity_role" {
   scope                = azurerm_storage_account.kr-storage-account.id
 }
 
+resource "azurerm_role_assignment" "kr-storage_identity_sp_role" {
+  count = tostring(terraform.workspace) == "dev" ? 1 : 0
+  principal_id         = var.servicePrincipal
+  # https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#compute
+  role_definition_name = "Storage Blob Data Contributor"
+  scope                = azurerm_storage_account.kr-storage-account.id
+}
+
 resource "azurerm_storage_account_network_rules" "kr-storage-network-rules" {
   storage_account_id    = azurerm_storage_account.kr-storage-account.id
   default_action        = "Deny"
