@@ -138,3 +138,14 @@ variable "az-storage-allowrule" {
 }
 
 /*End*/
+
+/*AZ AKS */
+variable "aks_max_pods" {
+  type        = map(number)
+  description = "aks max pods"
+}
+
+variable "aks-vm-size" {
+  type        = map(string)
+  description = "size of the vm"
+}

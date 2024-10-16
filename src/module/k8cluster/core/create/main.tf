@@ -1,6 +1,7 @@
 locals {
   cluster = "${join("_",["kr","core",tostring(terraform.workspace),"vertical","cluster"])}"
   np = "${join("0",["krc",tostring(terraform.workspace)])}"
+  spotpool = "${join("0",["kr",tostring(terraform.workspace),"sp"])}"
 }
 
 resource azurerm_kubernetes_cluster kr-k8-cluster {
@@ -14,27 +15,21 @@ resource azurerm_kubernetes_cluster kr-k8-cluster {
   default_node_pool {
     name                 = local.np 
     orchestrator_version = data.azurerm_kubernetes_service_versions.aks.latest_version
-    node_count           = var.node-count
+    node_count           = 1
     vm_size              = var.vm-size
-    vnet_subnet_id       = var.subnet  
-    //os_disk_size_gb      = 10
-    //type                 = "VirtualMachineScaleSets"
+    vnet_subnet_id       = var.subnet
      node_labels = {
       "type"          = "system"
       "env"           = tostring(terraform.workspace)
       "os"            = "linux"
       "vertical"      = "core-ai"
     }
-    tags = {
-      "type"          = "system"
-      "env"           = tostring(terraform.workspace)
-      "os"            = "linux"
-      "vertical"      = "core-ai"
-    } 
+    tags = var.tags
   }
 
   identity {
-    type = "SystemAssigned"
+    type = "UserAssigned"
+    identity_ids = [var.userManagedId]
   }
 
   azure_active_directory_role_based_access_control {
@@ -51,6 +46,23 @@ resource azurerm_kubernetes_cluster kr-k8-cluster {
     pod_cidrs = [var.pod-cidr]
     dns_service_ip = var.dns-svc-ip
   }
+
+  tags = var.tags
+}
+
+resource "azurerm_kubernetes_cluster_node_pool" "spot_pool" {
+  name                = local.spotpool
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.kr-k8-cluster.id
+  vm_size             = var.vm-size
+  node_count          = var.node-count
+  priority            = "Spot"
+  eviction_policy     = "Delete"
+  spot_max_price      = -1
+  max_pods            = var.max_pods
+  enable_auto_scaling = true
+  min_count           = 1
+  max_count           = 3
+  vnet_subnet_id      = var.subnet
 
   tags = var.tags
 }

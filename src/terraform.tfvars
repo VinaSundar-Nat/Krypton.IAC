@@ -70,3 +70,21 @@ az-storage-allowrule = {
   "dr"      = ["123.243.244.129"]
 }
 
+aks_max_pods = {
+  "default" = 10,
+  "dev"     = 10,
+  "prod"    = 30,
+  "stage"   = 30,
+  "uat"     = 10,
+  "dr"      = 10
+}
+
+aks-vm-size = {
+  default = "standard_b2ps_v2",
+  dev     = "Standard_D2_v4",
+  prod    = "standard_b2pls_v2",
+  stage   = "Standard_D2as_v4",
+  uat     = "Standard_D2as_v4",
+  dr      = "Standard_D2_v4"
+}
+
