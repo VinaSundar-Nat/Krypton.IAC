@@ -116,6 +116,7 @@ module "deploy-kr-storage-core" {
   allowip          = var.az-storage-allowrule[terraform.workspace]
   userPrincipal    = module.deploy-kr-host-usr_mang.kr_usr_mang_idn_principal_id
   servicePrincipal = module.deploy-kr-host-app_loc.kr_loc_sp_id
+
   tags = {
     env      = terraform.workspace,
     owner    = var.owner
@@ -132,12 +133,15 @@ module "deploy-kr-host-k8-adm" {
 
 #K8 - core cluster deployment
 module "deploy-kr-k8-cluster" {
-  source   = "./module/k8cluster/core/create"
-  group    = module.deploy-kr-rg.kr_rg_name
-  location = var.az-location[terraform.workspace]
-  tenant   = var.AZ_TENNENT_ID
-  subnet   = module.deploy-kr-subnet-core.kr_subnet_id
-  adm      = module.deploy-kr-host-k8-adm.kr_aks_adm_id
+  source        = "./module/k8cluster/core/create"
+  group         = module.deploy-kr-rg.kr_rg_name
+  location      = var.az-location[terraform.workspace]
+  tenant        = var.AZ_TENNENT_ID
+  subnet        = module.deploy-kr-subnet-core.kr_subnet_id
+  adm           = module.deploy-kr-host-k8-adm.kr_aks_adm_id
+  max_pods      = var.aks_max_pods[terraform.workspace]
+  vm-size       = var.aks-vm-size[terraform.workspace]
+  userManagedId = module.deploy-kr-host-usr_mang.kr_usr_mang_idn_id
   tags = {
     env      = terraform.workspace,
     owner    = var.owner

@@ -1,9 +1,12 @@
 variable group {}
 variable location {}
-variable tags {}
 variable subnet {}
 variable tenant {}
 variable adm {}
+variable tags {
+  type = map(string)
+}
+variable userManagedId {}
 
 
 variable "dnsprefix" {
@@ -12,16 +15,17 @@ variable "dnsprefix" {
   default     = "kr-verticle-core"
 }
 
+//https://prices.azure.com/api/retail/prices?api-version=2023-01-01-preview
+//https://azure.microsoft.com/en-us/pricing/spot-advisor/
 variable "vm-size" {
   type        = string
-  description = "nodepool vm definition - https://cloudprice.net/?timeoption=month"
-  default     = "standard_b2pls_v2"
+  description = "nodepool vm definition - required armSkuName"
 }
 
 variable "node-count" {
   type        = number
   description = "node count in pool"
-  default     = 2
+  default     = 1
 }
 
 variable "lb-sku" {
@@ -52,5 +56,11 @@ variable "pod-cidr" {
   type        = string
   description = "service cidr - must be different from subnet address prefix"
   default     = "10.244.0.0/16"
+}
+
+variable "max_pods"{
+  type        = number
+  description = "max number of pods that can be created"
+  default     = 5
 }
 
