@@ -5,6 +5,7 @@ locals {
 }
 
 resource azurerm_kubernetes_cluster kr-k8-cluster {
+  count               = var.create_cluster ? 1 : 0
   name                = local.cluster
   location            = var.location
   resource_group_name = var.group
@@ -51,8 +52,9 @@ resource azurerm_kubernetes_cluster kr-k8-cluster {
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "spot_pool" {
+  count               = var.create_cluster ? 1 : 0
   name                = local.spotpool
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.kr-k8-cluster.id
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.kr-k8-cluster[0].id
   vm_size             = var.vm-size
   node_count          = var.node-count
   priority            = "Spot"

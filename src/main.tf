@@ -10,6 +10,10 @@ terraform {
       source  = "hashicorp/azuread"
       version = "~> 2.0"
     }
+    azapi = {
+      source  = "azure/azapi"
+      version = "=0.1.0"
+    }
     random = {
       source  = "hashicorp/random"
       version = "~>3.0"
@@ -32,6 +36,13 @@ provider "azurerm" {
 }
 
 provider "azuread" {
+  tenant_id                   = var.AZ_TENNENT_ID
+  client_id                   = var.AZ_CLIENT_ID
+  client_certificate_path     = var.AZ_CERT_PATH
+  client_certificate_password = var.AZ_CERT_PASSWORD
+}
+
+provider "azapi" {
   tenant_id                   = var.AZ_TENNENT_ID
   client_id                   = var.AZ_CLIENT_ID
   client_certificate_path     = var.AZ_CERT_PATH
@@ -93,9 +104,40 @@ module "deploy-kr-host-usr_mang" {
 }
 
 #Local development - application and service principal
+module "check-kr-host-app_dets" {
+  source    = "./module/host/core/resource"
+  app_name  = "${module.deploy-kr-rg.kr_rg_name}-${tostring(terraform.workspace)}-localapp"
+  clientId  = var.AZ_CLIENT_ID
+  tennentId = var.AZ_TENNENT_ID
+}
+
+
 module "deploy-kr-host-app_loc" {
-  source = "./module/host/core/application"
-  group  = module.deploy-kr-rg.kr_rg_name
+  source     = "./module/host/core/application"
+  group      = module.deploy-kr-rg.kr_rg_name
+  depends_on = [module.check-kr-host-app_dets]
+  app_name   = "${module.deploy-kr-rg.kr_rg_name}-${tostring(terraform.workspace)}-localapp"
+  ex_app_id  = module.check-kr-host-app_dets.kr_loc_app_id
+  ex_sp_id   = module.check-kr-host-app_dets.kr_loc_sp_id
+  tags = {
+    env      = terraform.workspace,
+    owner    = var.owner
+    division = var.division
+    source   = var.source_system
+  }
+}
+
+#Key vault
+module "deploy-kr-keyvault" {
+  source             = "./module/keyvault"
+  group              = module.deploy-kr-rg.kr_rg_name
+  location           = var.az-location[terraform.workspace]
+  userPrincipal      = module.deploy-kr-host-usr_mang.kr_kv_mang_idn_principal_id
+  servicePrincipal   = tostring(terraform.workspace) == "dev" ? module.deploy-kr-host-app_loc.kr_loc_sp_id : ""
+  key-permissions    = var.az-keyvault-key-perm[terraform.workspace]
+  secret-permissions = var.az-keyvault-sec-perm[terraform.workspace]
+  cert-permissions   = var.az-keyvault-cert-perm[terraform.workspace]
+  create_vault       = var.CREATE_VAULT
   tags = {
     env      = terraform.workspace,
     owner    = var.owner
@@ -133,15 +175,16 @@ module "deploy-kr-host-k8-adm" {
 
 #K8 - core cluster deployment
 module "deploy-kr-k8-cluster" {
-  source        = "./module/k8cluster/core/create"
-  group         = module.deploy-kr-rg.kr_rg_name
-  location      = var.az-location[terraform.workspace]
-  tenant        = var.AZ_TENNENT_ID
-  subnet        = module.deploy-kr-subnet-core.kr_subnet_id
-  adm           = module.deploy-kr-host-k8-adm.kr_aks_adm_id
-  max_pods      = var.aks_max_pods[terraform.workspace]
-  vm-size       = var.aks-vm-size[terraform.workspace]
-  userManagedId = module.deploy-kr-host-usr_mang.kr_usr_mang_idn_id
+  source         = "./module/k8cluster/core/create"
+  group          = module.deploy-kr-rg.kr_rg_name
+  location       = var.az-location[terraform.workspace]
+  tenant         = var.AZ_TENNENT_ID
+  subnet         = module.deploy-kr-subnet-core.kr_subnet_id
+  adm            = module.deploy-kr-host-k8-adm.kr_aks_adm_id
+  max_pods       = var.aks_max_pods[terraform.workspace]
+  vm-size        = var.aks-vm-size[terraform.workspace]
+  userManagedId  = module.deploy-kr-host-usr_mang.kr_usr_mang_idn_id
+  create_cluster = var.CREATE_CLUSTER
   tags = {
     env      = terraform.workspace,
     owner    = var.owner

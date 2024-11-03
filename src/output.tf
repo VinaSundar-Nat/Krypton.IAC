@@ -15,5 +15,5 @@ output "kr-k8-aval-versions" {
 }
 
 output "kr-k8-core-details" {
-  value = format("K8CLUSTER : %s K8CLUSTERID %s", module.deploy-kr-k8-cluster.kr_core_cluster_name, module.deploy-kr-k8-cluster.kr_core_cluster_id)
+  value = module.deploy-kr-k8-cluster.kr_core_cluster_id != null ? format("K8CLUSTER : %s K8CLUSTERID %s", module.deploy-kr-k8-cluster.kr_core_cluster_name, module.deploy-kr-k8-cluster.kr_core_cluster_id) : "Cluster not created."
 }
