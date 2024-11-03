@@ -4,6 +4,17 @@ variable "kr-naming-prefix" {
   default     = "kr"
 }
 
+variable "CREATE_CLUSTER" {
+  type        = bool
+  description = "Variable decides if cluster can be created"
+}
+
+variable "CREATE_VAULT" {
+  type        = bool
+  description = "Variable decides if cluster can be created"
+}
+
+
 /*Auth Definitions*/
 
 variable "AZ_CLIENT_ID" {
@@ -148,4 +159,19 @@ variable "aks_max_pods" {
 variable "aks-vm-size" {
   type        = map(string)
   description = "size of the vm"
+}
+
+variable "az-keyvault-key-perm" {
+  type        = map(list(string))
+  description = "Key vault key permissions"
+}
+
+variable "az-keyvault-sec-perm" {
+  type        = map(list(string))
+  description = "Key vault secret permissions"
+}
+
+variable "az-keyvault-cert-perm" {
+  type        = map(list(string))
+  description = "Key vault cert permissions"
 }

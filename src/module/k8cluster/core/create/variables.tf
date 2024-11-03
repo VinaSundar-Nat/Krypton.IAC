@@ -1,3 +1,9 @@
+variable "create_cluster" {
+  type        = bool
+  description = "core cluster dns prefix"
+  default     = true
+}
+
 variable group {}
 variable location {}
 variable subnet {}

@@ -88,3 +88,30 @@ aks-vm-size = {
   dr      = "Standard_D2_v4"
 }
 
+az-keyvault-key-perm = {
+  "default" = ["Get", "List"],
+  "dev"     = ["Get", "List"],
+  "prod"    = ["Get", "List"],
+  "stage"   = ["Get", "List"],
+  "uat"     = ["Get", "List"],
+  "dr"      = ["Get", "List"]
+}
+
+az-keyvault-sec-perm = {
+  "default" = ["Get", "List", "Set", "Delete", "Backup", "Purge", "Restore", "Recover"],
+  "dev"     = ["Get", "List", "Set", "Delete", "Backup", "Purge", "Restore", "Recover"],
+  "prod"    = ["Get", "List"],
+  "stage"   = ["Get", "List"],
+  "uat"     = ["Get", "List", "Set", "Delete", "Backup", "Purge", "Restore", "Recover"],
+  "dr"      = ["Get", "List", "Set", "Delete", "Backup", "Purge", "Restore", "Recover"],
+}
+
+az-keyvault-cert-perm = {
+  "default" = ["Get", "List"],
+  "dev"     = ["Get", "List"],
+  "prod"    = ["Get", "List"],
+  "stage"   = ["Get", "List"],
+  "uat"     = ["Get", "List"],
+  "dr"      = ["Get", "List"]
+}
+

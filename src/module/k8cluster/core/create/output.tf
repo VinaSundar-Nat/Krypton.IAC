@@ -3,13 +3,13 @@ output "k8_aval_versions" {
 }
 
 output "kr_core_cluster_id" {
-  value = azurerm_kubernetes_cluster.kr-k8-cluster.id
+  value = length(azurerm_kubernetes_cluster.kr-k8-cluster) > 0 ? azurerm_kubernetes_cluster.kr-k8-cluster[0].id : null
 }
 
 output "kr_core_cluster_name" {
-  value = azurerm_kubernetes_cluster.kr-k8-cluster.name
+  value = length(azurerm_kubernetes_cluster.kr-k8-cluster) > 0 ? azurerm_kubernetes_cluster.kr-k8-cluster[0].name : null
 }
 
 output "kr_core_cluster_k8_version" {
-  value = azurerm_kubernetes_cluster.kr-k8-cluster.kubernetes_version
+  value =  length(azurerm_kubernetes_cluster.kr-k8-cluster) > 0 ? azurerm_kubernetes_cluster.kr-k8-cluster[0].kubernetes_version : null
 }

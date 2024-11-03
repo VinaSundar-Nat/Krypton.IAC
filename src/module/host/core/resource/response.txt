@@ -1,0 +1,4 @@
+{
+  "appId": "68ada552-6c78-41f6-bae2-a155eaec3e0c",
+  "spId": "daea46dc-e738-465b-b3dc-8a204d48a28d"
+}

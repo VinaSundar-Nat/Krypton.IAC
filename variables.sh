@@ -10,3 +10,5 @@ KR_DEPLOY_TO="dev"
 
 #Project variables
 create=true
+CREATE_CLUSTER=true
+CREATE_VAULT=true

@@ -416,3 +416,6 @@ ASALocalRun/
 terraform.tfstate.d
 terraform.tfstate.d
 
+# log
+**/log.txt
+
